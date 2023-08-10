@@ -26,4 +26,9 @@ export const ButtonLink = styled(Link)`
   padding: 8px 16px;
   text-decoration: none;
   border-radius: 8px;
+
+  &:hover {
+    background-color: ${cores.preta};
+    color: ${cores.branca};
+  }
 `
