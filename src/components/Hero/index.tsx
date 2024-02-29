@@ -6,7 +6,7 @@ import { formataPreco } from '../ProductList'
 import { Banner, Infos } from './styles'
 import { useDispatch } from 'react-redux'
 
-import { add } from '../../store/reducers/cart'
+import { add, open } from '../../store/reducers/cart'
 type Props = {
   game: Game
 }
@@ -16,6 +16,7 @@ const Hero = ({ game }: Props) => {
 
   const addToCart = () => {
     dispatch(add(game))
+    dispatch(open())
   }
 
   return (
