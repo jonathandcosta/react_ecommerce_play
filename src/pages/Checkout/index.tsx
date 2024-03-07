@@ -41,66 +41,80 @@ const Checkout = () => {
         </>
       </Card>
       <Card title="Pagamento">
-        <div>
-          <TabButton>
+        <>
+          <TabButton
+            isActive={!payWidthCard}
+            onClick={() => setPayWidthCard(false)}
+          >
             <img src={boleto} alt="boleto" />
             Boleto Bancário
           </TabButton>
-          <TabButton>
+          <TabButton
+            isActive={payWidthCard}
+            onClick={() => setPayWidthCard(true)}
+          >
             <img src={credit} alt="cartão de credito" />
             Cartão de Crédito
           </TabButton>
-          {payWidthCard ? (
-            <>
-              <Row marginTop="24px">
-                <InputGroup>
-                  <label htmlFor="cardOwner">Nome do Titular do cartão</label>
-                  <input type="text" id="cardOwner" />
-                </InputGroup>
-                <InputGroup>
-                  <label htmlFor="cpfCardOwner">CPF do Titular do cartão</label>
-                  <input type="number" id="cpfCardOwner" />
-                </InputGroup>
-              </Row>
-              <Row marginTop="24px">
-                <InputGroup>
-                  <label htmlFor="cardDisplayName">Número do cartão</label>
-                  <input type="text" id="cardDisplayName" />
-                </InputGroup>
-                <InputGroup maxWidth="123px">
-                  <label htmlFor="experiesMonth">Mês de vencimento</label>
-                  <input type="number" id="experiesMonth" />
-                </InputGroup>
-                <InputGroup maxWidth="123px">
-                  <label htmlFor="experiesYear">Ano de vencimento</label>
-                  <input type="number" id="experiesYear" />
-                </InputGroup>
-                <InputGroup maxWidth="48px">
-                  <label htmlFor="cardCode">CVV</label>
-                  <input type="number" id="cardCode" />
-                </InputGroup>
-              </Row>
-              <Row marginTop="24px">
-                <InputGroup maxWidth="116px">
-                  <label htmlFor="installments">Parcelamento</label>
-                  <select>
-                    <option>1x de R$200,00</option>
-                    <option>2x de R$200,00</option>
-                    <option>3x de R$200,00</option>
-                  </select>
-                </InputGroup>
-              </Row>
-            </>
-          ) : (
-            <p>
-              Ao optar por essa forma de pagamento, é importante lembrar que a
-              confirmação pode levar até 3 dias úteis, devido aos prazos
-              estabelecidos pelas instituições financeiras. Portanto, a
-              liberação do código de ativação do jogo adquirido ocorrerá somente
-              após a aprovação do pagamento do boleto.
-            </p>
-          )}
-        </div>
+          <div className="margin-top">
+            {payWidthCard ? (
+              <>
+                <Row marginTop="24px">
+                  <InputGroup>
+                    <label htmlFor="cardOwner">Nome do Titular do cartão</label>
+                    <input type="text" id="cardOwner" />
+                  </InputGroup>
+                  <InputGroup>
+                    <label htmlFor="cpfCardOwner">
+                      CPF do Titular do cartão
+                    </label>
+                    <input type="number" id="cpfCardOwner" />
+                  </InputGroup>
+                </Row>
+                <Row marginTop="24px">
+                  <InputGroup>
+                    <label htmlFor="nameCard">Nome do cartão</label>
+                    <input type="number" id="nameCard" />
+                  </InputGroup>
+                  <InputGroup>
+                    <label htmlFor="cardNumber">Número do cartão</label>
+                    <input type="number" id="cardNumber" />
+                  </InputGroup>
+                  <InputGroup maxWidth="123px">
+                    <label htmlFor="experiesMonth">Mês de vencimento</label>
+                    <input type="number" id="experiesMonth" />
+                  </InputGroup>
+                  <InputGroup maxWidth="123px">
+                    <label htmlFor="experiesYear">Ano de vencimento</label>
+                    <input type="number" id="experiesYear" />
+                  </InputGroup>
+                  <InputGroup maxWidth="48px">
+                    <label htmlFor="cardCode">CVV</label>
+                    <input type="number" id="cardCode" />
+                  </InputGroup>
+                </Row>
+                <Row marginTop="24px">
+                  <InputGroup maxWidth="150px">
+                    <label htmlFor="installments">Parcelamento</label>
+                    <select>
+                      <option>1x de R$200,00</option>
+                      <option>2x de R$200,00</option>
+                      <option>3x de R$200,00</option>
+                    </select>
+                  </InputGroup>
+                </Row>
+              </>
+            ) : (
+              <p>
+                Ao optar por essa forma de pagamento, é importante lembrar que a
+                confirmação pode levar até 3 dias úteis, devido aos prazos
+                estabelecidos pelas instituições financeiras. Portanto, a
+                liberação do código de ativação do jogo adquirido ocorrerá
+                somente após a aprovação do pagamento do boleto.
+              </p>
+            )}
+          </div>
+        </>
       </Card>
       <Button type="button" title="Clieque aqui para finalizar a compra">
         Finalizar compra

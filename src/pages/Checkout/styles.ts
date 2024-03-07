@@ -9,10 +9,15 @@ type RowProps = {
   marginTop?: string
 }
 
+// variação do botão ativo
+type TabButtonProps = {
+  isActive: boolean
+}
+
 export const Row = styled.div<RowProps>`
   display: flex;
   column-gap: 24px;
-
+  align-items: flex-end;
   margin-top: ${(props) => props.marginTop || '0'};
 `
 
@@ -27,7 +32,8 @@ export const InputGroup = styled.div<InputGroupProps>`
     display: block;
   }
 
-  input {
+  input,
+  select {
     background-color: ${cores.branca};
     border: 1px solid ${cores.branca};
     height: 32px;
@@ -36,16 +42,17 @@ export const InputGroup = styled.div<InputGroupProps>`
   }
 `
 
-export const TabButton = styled.button`
+export const TabButton = styled.button<TabButtonProps>`
   border-radius: 8px;
   font-size: 14px;
   font-weight: bold;
   color: ${cores.branca};
-  background-color: ${cores.preta};
+  background-color: ${(props) => (props.isActive ? cores.verde : cores.preta)};
   height: 32px;
   border: none;
   margin-right: 16px;
   padding: 0 8px;
+  cursor: pointer;
 
   img {
     margin-right: 8px;
