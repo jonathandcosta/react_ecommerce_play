@@ -5,37 +5,94 @@ import { InputGroup, Row, TabButton } from './styles'
 
 import boleto from '../../assets/images/barcode 1.png'
 import credit from '../../assets/images/credit-card 1.png'
+import { useFormik } from 'formik'
 
 const Checkout = () => {
   const [payWidthCard, setPayWidthCard] = useState(false)
 
+  const form = useFormik({
+    initialValues: {
+      fullname: '',
+      email: '',
+      cpf: '',
+      deliveryEmail: '',
+      confirmDeliveryEmail: '',
+      cardOwner: '',
+      cpfCardOwner: '',
+      nameCard: '',
+      cardNumber: '',
+      experiesMonth: '',
+      experiesYear: '',
+      cardCode: '',
+      installments: 1
+    },
+    onSubmit: (values) => {
+      console.log(values)
+    }
+  })
+
   return (
-    <div className="container">
+    <form onSubmit={form.handleSubmit} className="container">
       <Card title="Dados de cobrança">
         <>
           <Row>
             <InputGroup>
               <label htmlFor="fullname">Nome Completo</label>
-              <input id="fullname" type="text" />
+              <input
+                id="fullname"
+                type="text"
+                name="fullname"
+                value={form.values.fullname}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
             </InputGroup>
             <InputGroup>
               <label htmlFor="email">E-mail</label>
-              <input id="email" type="email" />
+              <input
+                id="email"
+                type="email"
+                name="email"
+                value={form.values.email}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
             </InputGroup>
             <InputGroup>
               <label htmlFor="cpf">CPF</label>
-              <input id="cpf" type="text" />
+              <input
+                id="cpf"
+                type="text"
+                name="cpf"
+                value={form.values.cpf}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
             </InputGroup>
           </Row>
           <h3 className="margin-top">Dados de entrega - conteúdo digital</h3>
           <Row>
             <InputGroup>
               <label htmlFor="deliveryEmail">E-mail</label>
-              <input id="deliveryEmail" type="email" />
+              <input
+                id="deliveryEmail"
+                type="email"
+                name="email"
+                value={form.values.email}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
             </InputGroup>
             <InputGroup>
               <label htmlFor="confirmDeliveryEmail">Confirme seu E-mail</label>
-              <input id="confirmDeliveryEmail" type="email" />
+              <input
+                id="confirmDeliveryEmail"
+                type="email"
+                name="confirmDeliveryEmail"
+                value={form.values.confirmDeliveryEmail}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
             </InputGroup>
           </Row>
         </>
@@ -62,41 +119,96 @@ const Checkout = () => {
                 <Row marginTop="24px">
                   <InputGroup>
                     <label htmlFor="cardOwner">Nome do Titular do cartão</label>
-                    <input type="text" id="cardOwner" />
+                    <input
+                      type="text"
+                      id="cardOwner"
+                      name="cardOwner"
+                      value={form.values.cardOwner}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
                   </InputGroup>
                   <InputGroup>
                     <label htmlFor="cpfCardOwner">
                       CPF do Titular do cartão
                     </label>
-                    <input type="number" id="cpfCardOwner" />
+                    <input
+                      type="number"
+                      id="cpfCardOwner"
+                      name="cpfCardOwner"
+                      value={form.values.cpfCardOwner}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
                   </InputGroup>
                 </Row>
                 <Row marginTop="24px">
                   <InputGroup>
                     <label htmlFor="nameCard">Nome do cartão</label>
-                    <input type="number" id="nameCard" />
+                    <input
+                      type="number"
+                      id="nameCard"
+                      name="nameCard"
+                      value={form.values.nameCard}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
                   </InputGroup>
                   <InputGroup>
                     <label htmlFor="cardNumber">Número do cartão</label>
-                    <input type="number" id="cardNumber" />
+                    <input
+                      type="number"
+                      id="cardNumber"
+                      name="cardNumber"
+                      value={form.values.cardNumber}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
                   </InputGroup>
                   <InputGroup maxWidth="123px">
                     <label htmlFor="experiesMonth">Mês de vencimento</label>
-                    <input type="number" id="experiesMonth" />
+                    <input
+                      type="number"
+                      id="experiesMonth"
+                      name="experiesMonth"
+                      value={form.values.experiesMonth}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
                   </InputGroup>
                   <InputGroup maxWidth="123px">
                     <label htmlFor="experiesYear">Ano de vencimento</label>
-                    <input type="number" id="experiesYear" />
+                    <input
+                      type="number"
+                      id="experiesYear"
+                      name="experiesYear"
+                      value={form.values.experiesYear}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
                   </InputGroup>
                   <InputGroup maxWidth="48px">
                     <label htmlFor="cardCode">CVV</label>
-                    <input type="number" id="cardCode" />
+                    <input
+                      type="number"
+                      id="cardCode"
+                      name="cardCode"
+                      value={form.values.cardCode}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    />
                   </InputGroup>
                 </Row>
                 <Row marginTop="24px">
                   <InputGroup maxWidth="150px">
                     <label htmlFor="installments">Parcelamento</label>
-                    <select>
+                    <select
+                      id="installments"
+                      name="installments"
+                      value={form.values.installments}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                    >
                       <option>1x de R$200,00</option>
                       <option>2x de R$200,00</option>
                       <option>3x de R$200,00</option>
@@ -119,7 +231,7 @@ const Checkout = () => {
       <Button type="button" title="Clieque aqui para finalizar a compra">
         Finalizar compra
       </Button>
-    </div>
+    </form>
   )
 }
 export default Checkout
