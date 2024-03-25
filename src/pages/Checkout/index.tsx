@@ -10,7 +10,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 const Checkout = () => {
-  const [payWidthCard, setPayWidthCard] = useState(false)
+  const [payWithCard, setPayWithCard] = useState(false)
 
   const form = useFormik({
     initialValues: {
@@ -23,13 +23,12 @@ const Checkout = () => {
       cpfCardOwner: '',
       cardDisplayName: '',
       cardNumber: '',
-      experiesMonth: '',
-      experiesYear: '',
+      expiresMonth: '',
+      expiresYear: '',
       cardCode: '',
-      installments: 1
+      installments: ''
     },
     validationSchema: Yup.object({
-      // DADOS DE COBRANÇA E ENTREGA
       fullName: Yup.string()
         .min(5, 'O nome precisa ter pelo menos 5 caracteres')
         .required('O campo é obrigatório'),
@@ -37,42 +36,39 @@ const Checkout = () => {
         .email('E-mail inválido')
         .required('O campo é obrigatório'),
       cpf: Yup.string()
-        .min(14, 'O campo tem que ter 14 caracteres')
-        .max(15, 'O campo tem que ter 14 caracteres')
+        .min(14, 'O campo precisa ter 14 caracteres')
+        .max(15, 'O campo precisa ter 14 caracteres')
         .required('O campo é obrigatório'),
       deliveryEmail: Yup.string()
         .email('E-mail inválido')
         .required('O campo é obrigatório'),
-
-      // validando os dados de e-mail
       confirmDeliveryEmail: Yup.string()
         .oneOf([Yup.ref('deliveryEmail')], 'Os e-mails são diferentes')
         .required('O campo é obrigatório'),
 
-      // DADOS DE CARTÃO DE CRÉDITO
       cardOwner: Yup.string().when((values, schema) =>
-        payWidthCard ? schema.required('O campo é obrigatório') : schema
+        payWithCard ? schema.required('O campo é obrigatório') : schema
       ),
       cpfCardOwner: Yup.string().when((values, schema) =>
-        payWidthCard ? schema.required('O campo é obrigatório') : schema
+        payWithCard ? schema.required('O campo é obrigatório') : schema
       ),
       cardDisplayName: Yup.string().when((values, schema) =>
-        payWidthCard ? schema.required('O campo é obrigatório') : schema
+        payWithCard ? schema.required('O campo é obrigatório') : schema
       ),
       cardNumber: Yup.string().when((values, schema) =>
-        payWidthCard ? schema.required('O campo é obrigatório') : schema
+        payWithCard ? schema.required('O campo é obrigatório') : schema
       ),
-      experiesMonth: Yup.string().when((values, schema) =>
-        payWidthCard ? schema.required('O campo é obrigatório') : schema
+      expiresMonth: Yup.string().when((values, schema) =>
+        payWithCard ? schema.required('O campo é obrigatório') : schema
       ),
-      experiesYear: Yup.string().when((values, schema) =>
-        payWidthCard ? schema.required('O campo é obrigatório') : schema
+      expiresYear: Yup.string().when((values, schema) =>
+        payWithCard ? schema.required('O campo é obrigatório') : schema
       ),
       cardCode: Yup.string().when((values, schema) =>
-        payWidthCard ? schema.required('O campo é obrigatório') : schema
+        payWithCard ? schema.required('O campo é obrigatório') : schema
       ),
       installments: Yup.string().when((values, schema) =>
-        payWidthCard ? schema.required('O campo é obrigatório') : schema
+        payWithCard ? schema.required('O campo é obrigatório') : schema
       )
     }),
     onSubmit: (values) => {
@@ -80,13 +76,11 @@ const Checkout = () => {
     }
   })
 
-  // console.log(form)
-
   const getErrorMessage = (fieldName: string, message?: string) => {
-    const estaAlterado = fieldName in form.touched
-    const estaInvalido = fieldName in form.errors
+    const isTouched = fieldName in form.touched
+    const isInvalid = fieldName in form.errors
 
-    if (estaAlterado && estaInvalido) return message
+    if (isTouched && isInvalid) return message
     return ''
   }
 
@@ -96,7 +90,7 @@ const Checkout = () => {
         <>
           <Row>
             <InputGroup>
-              <label htmlFor="fullName">Nome Completo</label>
+              <label htmlFor="fullName">Nome completo</label>
               <input
                 id="fullName"
                 type="text"
@@ -137,10 +131,10 @@ const Checkout = () => {
             <InputGroup>
               <label htmlFor="deliveryEmail">E-mail</label>
               <input
-                id="deliveryEmail"
                 type="email"
-                name="email"
-                value={form.values.email}
+                id="deliveryEmail"
+                name="deliveryEmail"
+                value={form.values.deliveryEmail}
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
               />
@@ -149,10 +143,10 @@ const Checkout = () => {
               </small>
             </InputGroup>
             <InputGroup>
-              <label htmlFor="confirmDeliveryEmail">Confirme seu E-mail</label>
+              <label htmlFor="confirmDeliveryEmail">Confirme o e-mail</label>
               <input
-                id="confirmDeliveryEmail"
                 type="email"
+                id="confirmDeliveryEmail"
                 name="confirmDeliveryEmail"
                 value={form.values.confirmDeliveryEmail}
                 onChange={form.handleChange}
@@ -171,21 +165,22 @@ const Checkout = () => {
       <Card title="Pagamento">
         <>
           <TabButton
-            isActive={!payWidthCard}
-            onClick={() => setPayWidthCard(false)}
+            isActive={!payWithCard}
+            onClick={() => setPayWithCard(false)}
           >
             <img src={boleto} alt="boleto" />
             Boleto Bancário
           </TabButton>
           <TabButton
-            isActive={payWidthCard}
-            onClick={() => setPayWidthCard(true)}
+            isActive={payWithCard}
+            onClick={() => setPayWithCard(true)}
           >
             <img src={credit} alt="cartão de credito" />
             Cartão de Crédito
           </TabButton>
+
           <div className="margin-top">
-            {payWidthCard ? (
+            {payWithCard ? (
               <>
                 <Row marginTop="24px">
                   <InputGroup>
@@ -224,7 +219,7 @@ const Checkout = () => {
                 </Row>
                 <Row marginTop="24px">
                   <InputGroup>
-                    <label htmlFor="nameCard">Nome do cartão</label>
+                    <label htmlFor="cardDisplayName">Nome do cartão</label>
                     <input
                       type="text"
                       id="cardDisplayName"
@@ -260,14 +255,14 @@ const Checkout = () => {
                       type="text"
                       id="experiesMonth"
                       name="experiesMonth"
-                      value={form.values.experiesMonth}
+                      value={form.values.expiresMonth}
                       onChange={form.handleChange}
                       onBlur={form.handleBlur}
                     />
                     <small>
                       {getErrorMessage(
                         'experiesMonth',
-                        form.errors.experiesMonth
+                        form.errors.expiresMonth
                       )}
                     </small>
                   </InputGroup>
@@ -277,15 +272,12 @@ const Checkout = () => {
                       type="text"
                       id="experiesYear"
                       name="experiesYear"
-                      value={form.values.experiesYear}
+                      value={form.values.expiresYear}
                       onChange={form.handleChange}
                       onBlur={form.handleBlur}
                     />
                     <small>
-                      {getErrorMessage(
-                        'experiesYear',
-                        form.errors.experiesYear
-                      )}
+                      {getErrorMessage('expiresYear', form.errors.expiresYear)}
                     </small>
                   </InputGroup>
                   <InputGroup maxWidth="48px">
@@ -338,7 +330,7 @@ const Checkout = () => {
           </div>
         </>
       </Card>
-      <Button type="button" title="Clieque aqui para finalizar a compra">
+      <Button type="button" title="Clique aqui para finalizar a compra">
         Finalizar compra
       </Button>
     </form>
