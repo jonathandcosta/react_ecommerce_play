@@ -8,9 +8,12 @@ import credit from '../../assets/images/credit-card 1.png'
 import { useFormik } from 'formik'
 
 import * as Yup from 'yup'
+import { usePurchaseMutation } from '../../services/api'
 
 const Checkout = () => {
   const [payWithCard, setPayWithCard] = useState(false)
+
+  const [purchase, { isLoading, isError, data }] = usePurchaseMutation()
 
   const form = useFormik({
     initialValues: {
@@ -72,7 +75,39 @@ const Checkout = () => {
       )
     }),
     onSubmit: (values) => {
-      console.log(values)
+      purchase({
+        billing: {
+          document: values.cpf,
+          email: values.email,
+          name: values.fullName
+        },
+        delivery: {
+          email: values.deliveryEmail
+        },
+        payment: {
+          installments: 1,
+          card: {
+            active: payWithCard,
+            code: Number(values.cardCode),
+            name: values.cardDisplayName,
+            number: values.cardNumber,
+            owner: {
+              document: values.cpfCardOwner,
+              name: values.cardOwner
+            },
+            expires: {
+              month: 1,
+              year: 2023
+            }
+          }
+        },
+        products: [
+          {
+            id: 1,
+            price: 10
+          }
+        ]
+      })
     }
   })
 
@@ -330,7 +365,11 @@ const Checkout = () => {
           </div>
         </>
       </Card>
-      <Button type="button" title="Clique aqui para finalizar a compra">
+      <Button
+        type="button"
+        onClick={form.handleSubmit}
+        title="Clique aqui para finalizar a compra"
+      >
         Finalizar compra
       </Button>
     </form>

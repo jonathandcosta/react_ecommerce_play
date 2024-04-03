@@ -58,7 +58,11 @@ const Cart = () => {
           total de {formataPreco(getTotalPrice())} {''}
           <span>em até 6x sem juros</span>
         </Prices>
-        <Button title="Cliqeu aqui para continuar a compra" type="button">
+        <Button
+          title="Clique aqui para continuar a compra"
+          type="link"
+          to={`/checkout`}
+        >
           Continuar a compra
         </Button>
       </Sidebar>
